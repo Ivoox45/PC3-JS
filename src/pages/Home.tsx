@@ -6,7 +6,10 @@ import { obtenerImagenes } from "@/api/imageApi";
 import { Product } from "@/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-
+import "./Home.css";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 const productosDisponibles: Product[] = [
     { id: 1, name: "Laptop", price: 1000 },
     { id: 2, name: "Smartphone", price: 500 },
@@ -96,14 +99,35 @@ export default function Home() {
             variant: "default",
         });
     };
+    const handleScrollToForm = () => {
+        const formSection = document.getElementById("TitleForm");
+        if (formSection) {
+            formSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Encabezado */}
-            <header className="bg-gray-800 text-white py-4 shadow-md sticky top-0 z-10">
-                <h1 className="text-center text-3xl font-bold">
-                    Carrito de Compras
-                </h1>
+            <header className="bg-gray-800 text-white py-4 shadow-md sticky top-0 z-10 flex justify-between items-center px-6">
+                <h1 className="text-2xl font-bold">Carrito de Compras</h1>
+                <nav className="space-x-6">
+                    <button
+                        onClick={() =>
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                        }
+                        className="hover:text-gray-300"
+                    >
+                        Inicio
+                    </button>
+                    <button
+                        onClick={handleScrollToForm}
+                        className="hover:text-gray-300"
+                    >
+                        Contacto
+                    </button>
+                    <button className="hover:text-gray-300">Compras</button>
+                </nav>
             </header>
 
             <div className="p-4">
@@ -164,6 +188,7 @@ export default function Home() {
                             </div>
                         )}
                     </TabsContent>
+                    
                 </Tabs>
 
                 {carrito.length > 0 && (
@@ -182,6 +207,50 @@ export default function Home() {
                         </p>
                     </div>
                 )}
+            </div>
+
+            <div id="TitleForm" className="mt-10">
+                <h1 className="text-center text-2xl font-semibold mb-4">
+                    Formulario de Contacto
+                </h1>
+                <form className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <div className="mb-4">
+                        <Label htmlFor="nombre" className="mb-1">
+                            Nombre
+                        </Label>
+                        <Input
+                            id="nombre"
+                            type="text"
+                            placeholder="Escribe tu nombre"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="correo" className="mb-1">
+                            Correo Electrónico
+                        </Label>
+                        <Input
+                            id="correo"
+                            type="email"
+                            placeholder="tuemail@ejemplo.com"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="celular" className="mb-1">
+                            Celular
+                        </Label>
+                        <Input
+                            id="celular"
+                            type="tel"
+                            placeholder="+51 123 456 789"
+                            required
+                        />
+                    </div>
+                    <Button type="submit" className="w-full">
+                        Enviar
+                    </Button>
+                </form>
             </div>
         </div>
     );
